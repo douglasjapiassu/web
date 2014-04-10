@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+html,body{
+	background-color: #CCFFFF;
+	overflow: hidden;
+}
+
+#divImagem {
+	background-color: #ccc;
+	border: 1px solid #000;
+}
+
+#imagem{
+	position:relative;
+	cursor: move;
+}
