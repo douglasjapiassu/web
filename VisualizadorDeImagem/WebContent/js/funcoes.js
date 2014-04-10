@@ -1,8 +1,13 @@
 window.onload = function() {
+	//setando o tamanho máximo da div que recebe a imagem, afim de não criar barra de rolagem.
 	document.getElementById('divImagem').style.maxWidth = window.innerWidth + "px";
 	document.getElementById('divImagem').style.maxHeight = (window.innerHeight - 20) + "px";
+	
+	//declarando os eventos do mouse para arrastar a imagem
 	document.getElementById('imagem').onmousedown = startDrag;
 	document.getElementById('imagem').onmouseup = stopDrag;
+	
+	//declarando o evento para carregar o arquivo
 	document.getElementById('inpLocalArquivo').onchange = function() {
 		if (this.files[0].type != 'image/png' && this.files[0].type != 'image/jpeg') {
 			alert("São permitidas apenas as extensões 'png' e 'jpeg'");
@@ -14,18 +19,6 @@ window.onload = function() {
 	};
 };
 
-function onScroll() {
-	var scrolled = window.scrollY / ( document.getElementById("imagem").offsetHeight );
-    console.log("window.scrollY: " + window.scrollY);
-    console.log("scrolled: " + scrolled );
-    var zoomLevels = 1; //change to have a different behavior
-    var scale = Math.pow( 3, scrolled * zoomLevels);
-    var imagem = document.getElementById("imagem");
-    console.log("scale:" + scale);
-    imagem.width = Math.round(200/scale); //change 200 to your image size
-    imagem.height = Math.round(200/scale); //change 200 to your image size
-}
-
 function mostrarImagem(imagem) {
 	var reader = new FileReader();
     reader.onload = function (e) {
@@ -34,47 +27,54 @@ function mostrarImagem(imagem) {
     reader.readAsDataURL(imagem.files[0]);
 }
 
-function startDrag(e) {
+function startDrag(evt) {
 	// determine event object
-	if (!e) {
-		var e = window.event;
+	if (!evt) {
+		var evt = window.event;
 	}
 	
-    if(e.preventDefault) e.preventDefault();
+    if(evt.preventDefault) evt.preventDefault();
 
-	// IE uses srcElement, others use target
-	var targ = e.target ? e.target : e.srcElement;
+	var elemento = evt.target ? evt.target : evt.srcElement;
 
-	if (targ.className != 'dragme') {return};
+	if (elemento.className != 'dragme')
+		return;
+	
 	// calculate event X, Y coordinates
-		offsetX = e.clientX;
-		offsetY = e.clientY;
+	offsetX = evt.clientX;
+	offsetY = evt.clientY;
 
-	// assign default values for top and left properties
-	if(!targ.style.left) { targ.style.left='0px'};
-	if (!targ.style.top) { targ.style.top='0px'};
+	// setando valores iniciais
+	if (!elemento.style.left) elemento.style.left='0px';
+	if (!elemento.style.top) elemento.style.top='0px';
 
 	// calculate integer values for top and left 
 	// properties
-	coordX = parseInt(targ.style.left);
-	coordY = parseInt(targ.style.top);
-	//var areaHorizontal = document.body.clientWidth - objSelecionado.clientWidth - 2;
-    //var areaVertical = document.body.clientHeight - objSelecionado.clientHeight - 2;
+	coordX = parseInt(elemento.style.left);
+	coordY = parseInt(elemento.style.top);
+	
+	areaHorizontal = document.body.clientWidth - elemento.clientWidth - 2;
+    areaVertical = document.body.clientHeight - elemento.clientHeight - 2;
 
 	drag = true;
-
-	// move div element
-	document.onmousemove=dragDiv;
+	document.onmousemove = arrastarImagem;
+	
     return false;
 }
 
-function dragDiv(e) {
-	if (!drag) {return};
-	if (!e) { var e= window.event};
-	var targ=e.target?e.target:e.srcElement;
-	// move div element
-	targ.style.left=coordX+e.clientX-offsetX+'px';
-	targ.style.top=coordY+e.clientY-offsetY+'px';
+/**
+ * Arrastar o elemento
+ */
+function arrastarImagem(e) {
+	if (!drag) return;
+	
+	if (!e) var e = window.event;
+	
+	var targ = e.target? e.target : e.srcElement;
+	
+	//movendo o elemento
+	targ.style.left = coordX + e.clientX - offsetX + 'px';
+	targ.style.top = coordY + e.clientY- offsetY + 'px';
 	return false;
 }
 
