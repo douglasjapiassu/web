@@ -1,17 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="css/estilos.css">
-<title>Visualizador de Imagem</title>
-</head>
-<body>
-	<form id="formUploadImagem" method="post">
-		<input type="file" name="inpLocalArquivo" id="inpLocalArquivo"
-			accept="image/png, image/jpeg"/>
-	</form>
-	<div id="divImagem" class="draggable">
-		<img id="imagem" class="dragme"/>
-	</div>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/estilos.css">
+		<title>Visualizador de Imagem</title>
+	</head>
+	<body>
+		<div class="ferramentas">
+			<div>
+				Escolha a fonte da imagem:
+				<input type="radio" name="rbFonteImagem" value="local" onclick="clickRadio(this)"> Local
+				<input type="radio" name="rbFonteImagem" value="url" onclick="clickRadio(this)"> URL - A&ccedil;&otilde;es
+				<button type="button" id="btnZoomIn" disabled="disabled"><i class="icon zoomIn"></i></button>
+				<button type="button" id="btnZoomOut" disabled="disabled"><i class="icon zoomOut"></i></button>
+			</div>
+			<input type="file" name="inpLocalArquivo" id="inpLocalArquivo" accept="image/png, image/jpeg" style="display: none"/>
+			<input type="text" id="inpUrlImagem" readonly="readonly" placeholder="Insira a Url" style="display: none">
+		</div>
+		
+		<fieldset id="fsImagem" class="draggable">
+			<img id="imagem"/>
+		</fieldset>
+	<script src="js/funcoes.js"></script>
 </body>
-<script type="text/javascript" src="js/funcoes.js"></script>
 </html>

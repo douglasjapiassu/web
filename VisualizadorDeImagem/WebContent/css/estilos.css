@@ -1,16 +1,41 @@
 @CHARSET "UTF-8";
 
 html,body{
-	background-color: #CCFFFF;
 	overflow: hidden;
 }
 
-#divImagem {
-	background-color: #ccc;
-	border: 1px solid #000;
+.ferramentas {
+	z-index: 100;
+	position: absolute;
+	width: 100%;
+	background-color: white;
+}
+
+#fsImagem {
+	margin-top:52px;
+	border: 1px solid #060;
+	padding:12px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	z-index: 0; 
 }
 
 #imagem{
 	position:relative;
 	cursor: move;
+	z-index: 0; 
+}
+
+.icon {
+    padding-left: 22px;
+    background: no-repeat left center;
+    text-decoration: none;
+}
+ 
+.icon.zoomIn {
+    background-image: url(../icons/zoom_in.png);
+}
+ 
+.icon.zoomOut {
+    background-image: url(../icons/zoom_out.png);
 }
