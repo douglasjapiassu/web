@@ -11,6 +11,10 @@ html,body{
 	background-color: white;
 }
 
+.inline {
+	float: left;
+}
+
 #fsImagem {
 	margin-top:52px;
 	border: 1px solid #060;
