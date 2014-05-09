@@ -4,7 +4,7 @@ window.onload = function() {
 		document.getElementById('inpLocalArquivo').disabled = true;
 	}
 	
-	//setando o tamanho m·ximo da div que recebe a imagem, afim de n„o criar barra de rolagem.
+	//setando o tamanho m√°ximo da div que recebe a imagem, afim de n√£o criar barra de rolagem.
 	document.getElementById('fsImagem').style.maxWidth = window.innerWidth + "px";
 	document.getElementById('fsImagem').style.maxHeight = (window.innerHeight - 100) + "px";
 	document.getElementById('fsImagem').style.height = (window.innerHeight - 100) + "px";
@@ -17,15 +17,14 @@ window.onload = function() {
 	document.getElementById('btnZoomIn').onclick = fnZoomIn;
 	document.getElementById('btnZoomOut').onclick = fnZoomOut;
 	
-	document.getElementById('inpUrlImagem').onclick = mostrarImagemPelaUrl;
+	document.getElementById('btnLoadUrl').onclick = mostrarImagemPelaUrl;
 	
-	//aÁ„o executada ao selecionar alguma imagem
+	//a√ß√£o executada ao selecionar alguma imagem
 	document.getElementById('inpLocalArquivo').onchange = function() {
 		if (this.files[0].type != 'image/png' && this.files[0].type != 'image/jpeg') {
-			alert("S„o permitidas apenas as extensıes 'png' e 'jpeg'");
+			alert("S√£o permitidas apenas as extens√µes 'png' e 'jpeg'");
 			return;
 		}
-		
 		mostrarImagem(this);
 	};
 };
@@ -41,6 +40,8 @@ function isInternetExplorer() {
 }
 
 function mostrarImagem(input) {
+	resetarPropriedadesDaImagem();
+	
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
 	    reader.onload = function (e) {
@@ -55,8 +56,7 @@ function mostrarImagem(input) {
 	heightInicial = document.getElementById('imagem').height;
 	widthInicial = document.getElementById('imagem').heigth;
 	
-	document.getElementById('btnZoomIn').disabled = false;
-	document.getElementById('btnZoomOut').disabled = false;
+	ativarBotoesZoom();
 }
 
 function startDrag(mouseEvt) {
@@ -87,7 +87,7 @@ function startDrag(mouseEvt) {
 	
 	drag = true;
 	
-	//evento de arrastar a imagem, definindo a posiÁ„o
+	//evento de arrastar a imagem, definindo a posi√ß√£o
 	document.onmousemove = definirPosicaoImagem;
 	
     return false;
@@ -108,8 +108,8 @@ function definirPosicaoImagem(mouseEvt) {
 	if (elemento.id != 'imagem')
 		return;
 	
-	//nova posiÁ„o ser· a posiÁ„o inicial da imagem (coord) + posiÁ„o em que o mouse 
-	//se encontra (mouseEvt.client) - posiÁ„o inicial do mouse (offset)
+	//nova posi√ß√£o ser√° a posi√ß√£o inicial da imagem (coord) + posi√ß√£o em que o mouse 
+	//se encontra (mouseEvt.client) - posi√ß√£o inicial do mouse (offset)
 	elemento.style.left = coordX + evento.clientX - offsetX + 'px';
 	elemento.style.top = coordY + evento.clientY- offsetY + 'px';
 	
@@ -131,14 +131,21 @@ function fnZoomOut(evento) {
 }
 
 function mostrarImagemPelaUrl(evento) {
-	var srcImagem = prompt('Insira a URL');
+	resetarPropriedadesDaImagem();
+
+	var inpLocal = document.getElementById('inpLocalArquivo');
+	var inpImagem = document.getElementById('inpUrlImagem');
+	var srcImagem = inpImagem.value;
 	
 	//click cancelar
 	if (srcImagem == null) return;
 	
 	if (srcImagem != '') {
 		document.getElementById('imagem').src = srcImagem;
-		document.getElementById('inpLocalArquivo').files = [];
+		inpLocal.files = [];
+		inpLocal.value = null;
+		
+		ativarBotoesZoom();
 	} else {
 		alert("Insira uma Url valida!");
 	}
@@ -148,11 +155,23 @@ function clickRadio(radio) {
 	if (radio.value == 'local') {
 		document.getElementById('inpLocalArquivo').style.display = 'block';
 		document.getElementById('inpUrlImagem').style.display = 'none';
+		document.getElementById('btnLoadUrl').style.display = 'none';
 	} else {
 		document.getElementById('inpUrlImagem').style.display = 'block';
+		document.getElementById('btnLoadUrl').style.display = 'block';
 		document.getElementById('inpLocalArquivo').style.display = 'none';
 	}
 		
+}
+
+function resetarPropriedadesDaImagem() {
+	document.getElementById('imagem').removeAttribute('width');
+	document.getElementById('imagem').removeAttribute('height');
+}
+
+function ativarBotoesZoom() {
+	document.getElementById('btnZoomIn').disabled = false;
+	document.getElementById('btnZoomOut').disabled = false;
 }
 
 //@ source=funcoes.js
